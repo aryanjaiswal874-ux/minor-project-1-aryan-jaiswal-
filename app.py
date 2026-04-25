@@ -132,13 +132,14 @@ st.markdown("## 📊 Summary")
 
 total_amt = filtered_df["Amount"].sum()
 avg_amt   = filtered_df["Amount"].mean()
+mean_amt  = avg_amt   # alias used in anomaly section
 max_amt   = filtered_df["Amount"].max()
 min_amt   = filtered_df["Amount"].min()
 txn_count = len(filtered_df)
 
-# BUG FIX 7: Handle edge case where std = 0 (all amounts identical)
+# BUG FIX 7: Handle edge case where std = 0 or NaN (all amounts identical / single row)
 std_amt = filtered_df["Amount"].std()
-if pd.isna(std_amt):
+if pd.isna(std_amt) or std_amt == 0:
     std_amt = 0.0
 
 col1, col2, col3, col4, col5 = st.columns(5)
